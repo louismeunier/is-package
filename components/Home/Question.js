@@ -15,6 +15,13 @@ export default function Question() {
     const [currentStreak, setCurrentStreak] = useState(0);
 
     useEffect(() => {
+        if (currentStreak > 0) window.onbeforeunload = warnClose;
+        function warnClose() {
+          return ""
+        }
+    })
+
+    useEffect(() => {
         generateNewPackage();
     }, [])
 

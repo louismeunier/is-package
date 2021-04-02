@@ -9,7 +9,14 @@
   },
   "dependencies": {
     "next": "10.1.2",
+    "random-words": "^1.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.4",
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }

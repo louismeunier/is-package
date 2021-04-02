@@ -9,6 +9,9 @@ export default function Question() {
     const [currentPackage, setCurrentPackage] = useState(null);
     const [isPackage, setIsPackage] = useState(null);
 
+    const [prevPackage, setPrevPackage] = useState(null);
+    const [prevIsPackage, setPrevIsPackage] = useState(null);
+
     const [currentStreak, setCurrentStreak] = useState(0);
 
     useEffect(() => {
@@ -16,16 +19,20 @@ export default function Question() {
     }, [])
 
     const generateNewPackage = () => {
+        setPrevPackage(currentPackage);
+        setPrevIsPackage(isPackage);
         const newWord = randomWord();
         setCurrentPackage(newWord)
         NPMQuery(newWord)
             .then(res => {
-                res.code == 'NOT_FOUND' 
-                ? setIsPackage(false)
-                : setIsPackage(true)
+                if (res.code == 'NOT_FOUND') {
+                    setIsPackage(false);
+                } else {
+                    setIsPackage(true);
+                }
             })
             .catch(err => {
-                setIsPackage(false)
+                setIsPackage(false);
             })
     }
 
@@ -68,18 +75,18 @@ export default function Question() {
                 <div className="h-1/6 flex flex-col items-center justify-around">
                     <h1 className="text-4xl">is <em className="font-bold">{currentPackage}</em> an NPM package?
                     </h1>
-                    <Scoreboard currentStreak={currentStreak} bestStreak={getBestScore() ? getBestScore() : 0}/>
+                    <Scoreboard currentStreak={currentStreak} previous={{ name: prevPackage, isPackage: prevIsPackage }} bestStreak={getBestScore() ? getBestScore() : 0}/>
                 </div>
 
                 <div className="w-full h-5/6 grid-cols-2 gap-2 grid"> 
                     <div 
                         onClick={() => handleOption(true)}
-                        className="bg-green-400 shadow-xl border-8 rounded-lg border-green-600 delay-100 hover:bg-green-500 cursor-pointer "
+                        className="grid place-items-center bg-green-400 shadow-xl border-8 rounded-lg border-green-600 delay-100 hover:bg-green-500 cursor-pointer "
                     >
                     </div>
                     <div 
                         onClick={() => handleOption(false)}
-                        className="bg-red-400 shadow-xl border-8 border-red-600 rounded-lg delay-100 hover:bg-red-500 cursor-pointer"
+                        className="grid place-items-center bg-red-400 shadow-xl border-8 border-red-600 rounded-lg delay-100 hover:bg-red-500 cursor-pointer"
                     >
                     </div>
                 </div>

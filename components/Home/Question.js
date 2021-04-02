@@ -3,15 +3,14 @@ import Scoreboard from "./Scoreboard"
 import NPMQuery from "../../logic/npm-api"
 import randomWord from "random-words"
 import Head from 'next/head'
+import { getBestScore, setBestScore } from "../../logic/score"
 
 export default function Question() {
     const [currentPackage, setCurrentPackage] = useState(null);
     const [isPackage, setIsPackage] = useState(null);
 
     const [currentStreak, setCurrentStreak] = useState(0);
-    const [bestStreak, setBestStreak] = useState(0);
 
-    const [backgroundColor, setBackgroundColor] = useState("gray-300");
     useEffect(() => {
         generateNewPackage();
     }, [])
@@ -37,7 +36,7 @@ export default function Question() {
         
         setTimeout(() => {
             document.getElementById("mainBackground").style.backgroundColor = BKD;
-        },500);
+        },400);
     }
 
     const handleOption = bool => {
@@ -46,10 +45,11 @@ export default function Question() {
             setCurrentStreak(currentStreak+1);
         } else {
             animateResponse(false);
-            if (currentStreak > bestStreak) {
-                setBestStreak(currentStreak);
-            }
             setCurrentStreak(0); 
+            const currentBest = getBestScore();
+            if (!currentBest || currentStreak > parseInt(currentBest)) {
+                setBestScore(currentStreak);
+            }
         }
         generateNewPackage();
     }
@@ -68,7 +68,7 @@ export default function Question() {
                 <div className="h-1/6 flex flex-col items-center justify-around">
                     <h1 className="text-4xl">is <em className="font-bold">{currentPackage}</em> an NPM package?
                     </h1>
-                    <Scoreboard currentStreak={currentStreak} bestStreak={bestStreak}/>
+                    <Scoreboard currentStreak={currentStreak} bestStreak={getBestScore() ? getBestScore() : 0}/>
                 </div>
 
                 <div className="w-full h-5/6 grid-cols-2 gap-2 grid"> 

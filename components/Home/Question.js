@@ -31,11 +31,12 @@ export default function Question() {
     }
 
     const animateResponse = bool => {
-        const BKD = "gray-300";
-        const COLOR = bool ? "green-100" : "red-100";
-        setBackgroundColor(COLOR);
+        const BKD = "rgba(209, 213, 219)";
+        const COLOR = bool ? "rgb(209, 250, 229)" : "rgb(254, 226, 226)";
+        document.getElementById("mainBackground").style.backgroundColor = COLOR;
+        
         setTimeout(() => {
-            setBackgroundColor(BKD)
+            document.getElementById("mainBackground").style.backgroundColor = BKD;
         },500);
     }
 
@@ -58,7 +59,7 @@ export default function Question() {
             <Head>
                 <title>Is {currentPackage} an NPM package?</title>
             </Head>
-            <div className={`rounded-xl shadow-xl m-10 bg-${backgroundColor} text-center p-2`}>
+            <div id="mainBackground" className="rounded-xl shadow-xl m-10 text-center p-2 bg-gray-300">
                 <div className="h-1/6 flex flex-col items-center justify-around">
                     <h1 className="text-4xl">is <em className="font-bold">{currentPackage}</em> an NPM package?
                     </h1>

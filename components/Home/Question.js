@@ -58,6 +58,11 @@ export default function Question() {
         <>
             <Head>
                 <title>Is {currentPackage} an NPM package?</title>
+                <meta name="description" content="A NPM module guessing game"></meta>
+
+                <meta property="og:title" content="is package" key="title" />
+                <meta name="og:description" content="A NPM module guessing game" key="desc"/>
+                <meta property="og:url" content={"https://ispackage.netlify.com"} key="url" />
             </Head>
             <div id="mainBackground" className="rounded-xl shadow-xl m-10 text-center p-2 bg-gray-300">
                 <div className="h-1/6 flex flex-col items-center justify-around">
